@@ -53,6 +53,7 @@ namespace asp_bingo.Web
             {
                 endpoints.MapRazorPages();
 				endpoints.MapHub<ChatHub>("/chathub");
+				endpoints.MapHub<BingoHub>("/bingohub");
             });
         }
     }
