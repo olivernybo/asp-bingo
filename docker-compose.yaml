@@ -1,0 +1,6 @@
+version: '3.8'
+services:
+  web:
+    build: ./asp-bingo.Web
+    ports:
+      - 5001:80
