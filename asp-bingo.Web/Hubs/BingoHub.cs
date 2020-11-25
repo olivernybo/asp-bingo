@@ -9,6 +9,7 @@ namespace asp_bingo.Web.Hubs
 {
     public class BingoHub : Hub
     {
+        #region Sheet
         private readonly static Random random = new Random();
         private readonly static Dictionary<string, int[]> sheets = new Dictionary<string, int[]>();
         private readonly static Thread bingoCaller;
@@ -32,6 +33,7 @@ namespace asp_bingo.Web.Hubs
 
                 while (true)
                 {
+                    Console.WriteLine("Calling...");
                     await connection.InvokeAsync("BingoCaller", "test");
                     await Task.Delay(1000);
                 }
@@ -66,7 +68,8 @@ namespace asp_bingo.Web.Hubs
             while (sheet.Count < 15)
             {
                 int number = random.Next(1, 91);
-                if ((number < 10 && c0++ < 3)
+                if (!sheet.Contains(number) &&
+                    ((number < 10 && c0++ < 3)
                     || (number < 20 && c1++ < 3)
                     || (number < 30 && c2++ < 3)
                     || (number < 40 && c3++ < 3)
@@ -74,10 +77,13 @@ namespace asp_bingo.Web.Hubs
                     || (number < 60 && c5++ < 3)
                     || (number < 70 && c6++ < 3)
                     || (number < 80 && c7++ < 3)
-                    || (number <= 90 && c8++ < 3)) sheet.Add(number);
+                    || (number <= 90 && c8++ < 3))) sheet.Add(number);
             }
 
             return sheet.ToArray();
         }
+        #endregion
+    
+        public async Task BingoCaller(string message) => await Clients.All.SendAsync("BingoCallerRecieve", message);
     }
 }

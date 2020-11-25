@@ -1,9 +1,9 @@
-const connection = new signalR.HubConnectionBuilder().withUrl('/bingohub').build()
+const bingoCconnection = new signalR.HubConnectionBuilder().withUrl('/bingohub').build()
 
-connection.on('BingoCaller', (message) => {
-    console.log(message)
+bingoCconnection.on('BingoCallerRecieve', number => {
+    console.log(number)
 })
 
-connection.start()
-	.then(() => document.getElementById('sendButton').disabled = false)
+bingoCconnection.start()
+	.then(() => {})
 	.catch(err => console.error(err.toString()))
