@@ -1,3 +1,4 @@
+using asp_bingo.Web.Hubs;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
 using System;
@@ -16,11 +17,11 @@ namespace asp_bingo.Web.Services
 
 		static BingoService()
         {
-            Console.WriteLine("Bingo starting");
+            Console.WriteLine("BingoService: Bingo service starting");
             bingoCaller = new Thread(async () =>
             {
                 HubConnection connection = new HubConnectionBuilder()
-                    .WithUrl("http://localhost:5000/BingoHub")
+                    .WithUrl("http://localhost/BingoHub")
                     .Build();
                 
                 connection.Closed += async (error) =>
@@ -30,15 +31,16 @@ namespace asp_bingo.Web.Services
                 };
 
                 await connection.StartAsync();
+                Console.WriteLine("BingoService: Connection established");
 
                 while (gameIsRunning)
                 {
-                    Console.WriteLine("Calling...");
-                    await connection.InvokeAsync("BingoCaller", "test");
+                    Console.WriteLine("BingoService: Calling...");
+                    await connection.InvokeAsync("BingoCaller", BingoHub.CallerKey, "test");
                     await Task.Delay(1000);
                 }
             });
-            //bingoCaller.Start();
+            bingoCaller.Start();
         }
 
         public static int[] GetBingoSheet(string session)

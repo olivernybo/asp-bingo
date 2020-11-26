@@ -21,6 +21,7 @@ namespace asp_bingo.Web.Controllers
 
         public IActionResult Index()
         {
+            _ = BingoService.GetBingoSheet("test");
             return View();
         }
 
