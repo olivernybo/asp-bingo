@@ -1,3 +1,4 @@
+using asp_bingo.Web.Services;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
 using System;
@@ -26,6 +27,13 @@ namespace asp_bingo.Web.Hubs
         {
             if (key == CallerKey)
                 await Clients.All.SendAsync("BingoCallerRecieve", message);
+        }
+
+        public void GetSheet()
+        {
+            string id = Context.GetHttpContext().Session.Id;
+            int[] sheet = BingoService.GetBingoSheet(id);
+            Clients.Caller.SendAsync("Sheet", sheet);
         }
     }
 }
