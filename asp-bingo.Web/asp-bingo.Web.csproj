@@ -5,8 +5,4 @@
     <RootNamespace>asp_bingo.Web</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="3.1.10" />
-  </ItemGroup>
-
 </Project>
