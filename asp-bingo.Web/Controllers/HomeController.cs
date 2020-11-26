@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using asp_bingo.Web.Models;
+using asp_bingo.Web.Services;
 
 namespace asp_bingo.Web.Controllers
 {
