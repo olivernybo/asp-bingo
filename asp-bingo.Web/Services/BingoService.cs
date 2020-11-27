@@ -122,6 +122,7 @@ namespace asp_bingo.Web.Services
             int[] row1 = generateRow(sheet);
             int[] row2 = generateRow(sheet);
 
+            // Recursive cause the generation can fail
             int[] sheetArray;
             if (sheet.Count == 0) sheetArray = row0.Concat(row1).Concat(row2).ToArray();
             else sheetArray = GenerateSheet();
