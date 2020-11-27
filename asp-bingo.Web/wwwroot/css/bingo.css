@@ -1,0 +1,12 @@
+table {
+    table-layout: fixed;
+}
+
+.bingoCol {
+    text-align: center;
+    cursor: pointer;
+}
+
+.bingoMarked {
+    background-color: green;
+}
