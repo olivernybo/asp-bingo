@@ -23,10 +23,10 @@ namespace asp_bingo.Web.Hubs
             Console.WriteLine($"BingoHub: CallerKey: {CallerKey}");
         }
 
-        public async Task BingoCaller(string key, string message)
+        public async Task BingoCaller(string key, int number)
         {
             if (key == CallerKey)
-                await Clients.All.SendAsync("BingoCallerRecieve", message);
+                await Clients.All.SendAsync("BingoCallerRecieve", number);
         }
 
         public void GetSheet()
@@ -37,5 +37,7 @@ namespace asp_bingo.Web.Hubs
             Console.WriteLine("BingoHub: Sending sheet");
             Clients.Caller.SendAsync("Sheet", sheet);
         }
+
+        public void GetHistory() => Clients.Caller.SendAsync("History", BingoService.History);
     }
 }

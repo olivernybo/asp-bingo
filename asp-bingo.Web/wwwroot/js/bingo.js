@@ -1,7 +1,11 @@
 const bingoCconnection = new signalR.HubConnectionBuilder().withUrl('/bingohub').build()
 
+const historyList = document.querySelector('#history')
+
 bingoCconnection.on('BingoCallerRecieve', number => {
-	
+	const node = document.createElement('li')
+	node.innerText = number
+	historyList.appendChild(node)
 })
 
 bingoCconnection.on('Sheet', sheet => {
@@ -16,8 +20,17 @@ bingoCconnection.on('Sheet', sheet => {
 	}
 })
 
+bingoCconnection.on('History', history => {
+	for (const number of history) {
+		const node = document.createElement('li')
+		node.innerText = number
+		historyList.appendChild(node)
+	}
+})
+
 bingoCconnection.start()
 	.then(() => {
 		bingoCconnection.invoke('GetSheet')
+		bingoCconnection.invoke('GetHistory')
 	})
 	.catch(err => console.error(err.toString()))

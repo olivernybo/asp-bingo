@@ -10,3 +10,15 @@ table {
 .bingoMarked {
     background-color: green;
 }
+
+#history {
+    padding: 0;
+}
+
+#history li {
+    display: inline-block;
+    list-style-type: none;
+    font-size: 1.1rem;
+    width: 74px;
+    text-align: center;
+}

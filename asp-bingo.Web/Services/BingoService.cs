@@ -17,7 +17,7 @@ namespace asp_bingo.Web.Services
         private readonly static Dictionary<string, int[]> sheets = new Dictionary<string, int[]>();
         private readonly static Thread bingoCaller;
         private readonly static List<int> history = new List<int>();
-        private static bool gameIsRunning = false;
+        private static bool gameIsRunning = true;
 
 		static BingoService()
         {
@@ -44,7 +44,7 @@ namespace asp_bingo.Web.Services
                     await Task.Delay(1000);
                 }
             });
-            //bingoCaller.Start();
+            bingoCaller.Start();
         }
 
         private static async Task CallRandomNunber(HubConnection connection)
