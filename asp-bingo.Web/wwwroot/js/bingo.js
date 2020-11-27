@@ -1,13 +1,13 @@
-const bingoCconnection = new signalR.HubConnectionBuilder().withUrl('/bingohub').build()
+const bingoConnection = new signalR.HubConnectionBuilder().withUrl('/bingohub').build()
 const historyList = document.querySelector('#history')
 
-bingoCconnection.on('BingoCallerRecieve', number => {
+bingoConnection.on('BingoCallerRecieve', number => {
 	const node = document.createElement('li')
 	node.innerText = number
 	historyList.appendChild(node)
 })
 
-bingoCconnection.on('Sheet', sheet => {
+bingoConnection.on('Sheet', sheet => {
 	const tds = document.querySelectorAll('table .bingoCol')
 	for (let i = 0; i < tds.length; i++) {
 		tds[i].addEventListener('click', () => {
@@ -19,9 +19,9 @@ bingoCconnection.on('Sheet', sheet => {
 	}
 })
 
-bingoCconnection.on('RowsNeededForBingo', rowsNeeded => document.querySelector('#rowsNeeded').innerText = rowsNeeded)
+bingoConnection.on('RowsNeededForBingo', rowsNeeded => document.querySelector('#rowsNeeded').innerText = rowsNeeded)
 
-bingoCconnection.on('History', history => {
+bingoConnection.on('History', history => {
 	for (const number of history) {
 		const node = document.createElement('li')
 		node.innerText = number
@@ -29,10 +29,16 @@ bingoCconnection.on('History', history => {
 	}
 })
 
-bingoCconnection.start()
+bingoConnection.start()
 	.then(() => {
-		bingoCconnection.invoke('GetSheet')
-		bingoCconnection.invoke('GetHistory')
-		bingoCconnection.invoke('GetRowsNeededForBingo')
+		bingoConnection.invoke('GetSheet')
+		bingoConnection.invoke('GetHistory')
+		bingoConnection.invoke('GetRowsNeededForBingo')
+		const bingoButton = document.querySelector('#bingoButton')
+		bingoButton.addEventListener('click', () => {
+			bingoButton.disabled = true
+			bingoConnection.invoke('CallBingo')
+		})
+		bingoButton.disabled = false
 	})
 	.catch(err => console.error(err.toString()))
