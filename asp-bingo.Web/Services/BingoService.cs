@@ -82,8 +82,20 @@ namespace asp_bingo.Web.Services
                     || (number < 80 && c7++ < 3)
                     || (number <= 90 && c8++ < 3))) sheet.Add(number);
             }
+
+            // todo, make function to gen a row, it must ask if the row has one from that 10,20... int[9] x3 
             
-            sheet.Sort();
+            List<int> row0 = new List<int>(sheet.Take(5));
+            List<int> row1 = new List<int>(sheet.Skip(5).Take(5));
+            List<int> row2 = new List<int>(sheet.Skip(10).Take(5));
+
+            row0.Sort();
+            row1.Sort();
+            row2.Sort();
+
+            // todo place 0's
+
+            sheet = row0.Concat(row1).Concat(row2).ToList();
 
             return sheet.ToArray();
         }
