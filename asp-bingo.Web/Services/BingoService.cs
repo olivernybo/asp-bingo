@@ -11,9 +11,12 @@ namespace asp_bingo.Web.Services
 {
     public class BingoService
     {
+        public static int[] History => history.ToArray();
+
         private readonly static Random random = new Random();
         private readonly static Dictionary<string, int[]> sheets = new Dictionary<string, int[]>();
         private readonly static Thread bingoCaller;
+        private readonly static List<int> history = new List<int>();
         private static bool gameIsRunning = false;
 
 		static BingoService()
@@ -37,11 +40,20 @@ namespace asp_bingo.Web.Services
                 while (gameIsRunning)
                 {
                     Console.WriteLine("BingoService: Calling...");
-                    await connection.InvokeAsync("BingoCaller", BingoHub.CallerKey, "test");
+                    await CallRandomNunber(connection);
                     await Task.Delay(1000);
                 }
             });
             //bingoCaller.Start();
+        }
+
+        private static async Task CallRandomNunber(HubConnection connection)
+        {
+            int number = 0;
+            while (number == 0 || history.Contains(number))
+                number = random.Next(1, 91);
+            history.Add(number);
+            await connection.InvokeAsync("BingoCaller", BingoHub.CallerKey, number);
         }
 
         public static int[] GetBingoSheet(string session)
