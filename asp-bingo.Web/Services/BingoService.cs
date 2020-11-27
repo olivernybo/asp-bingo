@@ -71,27 +71,64 @@ namespace asp_bingo.Web.Services
             while (sheet.Count < 15)
             {
                 int number = random.Next(1, 91);
-                if (!sheet.Contains(number) &&
-                    ((number < 10 && c0++ < 3)
-                    || (number < 20 && c1++ < 3)
-                    || (number < 30 && c2++ < 3)
-                    || (number < 40 && c3++ < 3)
-                    || (number < 50 && c4++ < 3)
-                    || (number < 60 && c5++ < 3)
-                    || (number < 70 && c6++ < 3)
-                    || (number < 80 && c7++ < 3)
-                    || (number <= 90 && c8++ < 3))) sheet.Add(number);
+                
+                if (sheet.Contains(number)) continue;
+                else if (number < 10)
+                {
+                    if (c0++ < 3)
+                        sheet.Add(number);
+                }
+                else if (number < 20)
+                {
+                    if (c1++ < 3)
+                        sheet.Add(number);
+                }
+                else if (number < 30)
+                {
+                    if (c2++ < 3)
+                        sheet.Add(number);
+                }
+                else if (number < 40)
+                {
+                    if (c3++ < 3)
+                        sheet.Add(number);
+                }
+                else if (number < 50)
+                {
+                    if (c4++ < 3)
+                        sheet.Add(number);
+                }
+                else if (number < 60)
+                {
+                    if (c5++ < 3)
+                        sheet.Add(number);
+                }
+                else if (number < 70)
+                {
+                    if (c6++ < 3)
+                        sheet.Add(number);
+                }
+                else if (number < 80)
+                {
+                    if (c7++ < 3)
+                        sheet.Add(number);
+                }
+                else if (number <= 90)
+                    if (c8++ < 3)
+                        sheet.Add(number);
             }
 
             int[] row0 = generateRow(sheet);
             int[] row1 = generateRow(sheet);
             int[] row2 = generateRow(sheet);
 
-            sheet = row0.Concat(row1).Concat(row2).ToList();
+            int[] sheetArray;
+            if (sheet.Count == 0) sheetArray = row0.Concat(row1).Concat(row2).ToArray();
+            else sheetArray = GenerateSheet();
 
             Console.WriteLine("BingoService: Generated sheet");
 
-            return sheet.ToArray();
+            return sheetArray;
         }
 
             private static int[] generateRow(List<int> numbers, int rowCount = 5)
@@ -100,9 +137,9 @@ namespace asp_bingo.Web.Services
                 List<int> unusedNumbers = new List<int>();
                 
                 int takenCount = 0;
-                while (takenCount < rowCount - 1)
+                while (takenCount < rowCount)
                 {
-                    System.Console.WriteLine(numbers.Count);
+                    if (numbers.Count == 0) break;
                     int num = numbers[0];
                     int numPos = num == 90 ? 8 : int.Parse(num.ToString().PadLeft(2, '0')[0].ToString());
                     
@@ -114,10 +151,10 @@ namespace asp_bingo.Web.Services
                     
                     numbers.RemoveAt(0);
                 }
-                
+
                 foreach (int num in unusedNumbers)
                     numbers.Add(num);
-                
+
                 return row.ToArray();
             }
     }
