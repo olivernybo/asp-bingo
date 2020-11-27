@@ -39,5 +39,6 @@ namespace asp_bingo.Web.Hubs
         }
 
         public void GetHistory() => Clients.Caller.SendAsync("History", BingoService.History);
+        public void GetRowsNeededForBingo() => Clients.Caller.SendAsync("RowsNeededForBingo", BingoService.RowsNeeded);
     }
 }

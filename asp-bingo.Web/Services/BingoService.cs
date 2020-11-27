@@ -12,12 +12,13 @@ namespace asp_bingo.Web.Services
     public class BingoService
     {
         public static int[] History => history.ToArray();
+        public static int RowsNeeded { get; private set; } = 1;
 
         private readonly static Random random = new Random();
         private readonly static Dictionary<string, int[]> sheets = new Dictionary<string, int[]>();
         private readonly static Thread bingoCaller;
         private readonly static List<int> history = new List<int>();
-        private static bool gameIsRunning = true;
+        private static bool gameIsRunning = false;
 
 		static BingoService()
         {
