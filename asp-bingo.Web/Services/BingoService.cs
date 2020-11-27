@@ -28,7 +28,7 @@ namespace asp_bingo.Web.Services
                     .WithUrl("http://localhost/BingoHub")
                     .Build();
                 
-                connection.Closed += async (error) =>
+                connection.Closed += async error =>
                 {
                     await Task.Delay(3000);
                     await connection.StartAsync();
