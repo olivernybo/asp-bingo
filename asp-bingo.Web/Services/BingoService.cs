@@ -131,31 +131,31 @@ namespace asp_bingo.Web.Services
             return sheetArray;
         }
 
-            private static int[] generateRow(List<int> numbers, int rowCount = 5)
+        private static int[] generateRow(List<int> numbers, int rowCount = 5)
+        {
+            List<int> row = new List<int> { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            List<int> unusedNumbers = new List<int>();
+            
+            int takenCount = 0;
+            while (takenCount < rowCount)
             {
-                List<int> row = new List<int> { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-                List<int> unusedNumbers = new List<int>();
+                if (numbers.Count == 0) break;
+                int num = numbers[0];
+                int numPos = num == 90 ? 8 : int.Parse(num.ToString().PadLeft(2, '0')[0].ToString());
                 
-                int takenCount = 0;
-                while (takenCount < rowCount)
+                if (row[numPos] == 0)
                 {
-                    if (numbers.Count == 0) break;
-                    int num = numbers[0];
-                    int numPos = num == 90 ? 8 : int.Parse(num.ToString().PadLeft(2, '0')[0].ToString());
-                    
-                    if (row[numPos] == 0)
-                    {
-                        row[numPos] = num;
-                        takenCount++;
-                    } else unusedNumbers.Add(num);
-                    
-                    numbers.RemoveAt(0);
-                }
-
-                foreach (int num in unusedNumbers)
-                    numbers.Add(num);
-
-                return row.ToArray();
+                    row[numPos] = num;
+                    takenCount++;
+                } else unusedNumbers.Add(num);
+                
+                numbers.RemoveAt(0);
             }
+
+            foreach (int num in unusedNumbers)
+                numbers.Add(num);
+
+            return row.ToArray();
+        }
     }
 }
