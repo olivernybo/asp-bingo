@@ -32,7 +32,9 @@ namespace asp_bingo.Web.Hubs
         public void GetSheet()
         {
             string id = Context.GetHttpContext().Session.Id;
+            Console.WriteLine($"BingoHub: Requesting sheet for {id}");
             int[] sheet = BingoService.GetBingoSheet(id);
+            Console.WriteLine("BingoHub: Sending sheet");
             Clients.Caller.SendAsync("Sheet", sheet);
         }
     }

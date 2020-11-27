@@ -41,7 +41,7 @@ namespace asp_bingo.Web.Services
                     await Task.Delay(1000);
                 }
             });
-            bingoCaller.Start();
+            //bingoCaller.Start();
         }
 
         public static int[] GetBingoSheet(string session)
@@ -83,21 +83,42 @@ namespace asp_bingo.Web.Services
                     || (number <= 90 && c8++ < 3))) sheet.Add(number);
             }
 
-            // todo, make function to gen a row, it must ask if the row has one from that 10,20... int[9] x3 
-            
-            List<int> row0 = new List<int>(sheet.Take(5));
-            List<int> row1 = new List<int>(sheet.Skip(5).Take(5));
-            List<int> row2 = new List<int>(sheet.Skip(10).Take(5));
-
-            row0.Sort();
-            row1.Sort();
-            row2.Sort();
-
-            // todo place 0's
+            int[] row0 = generateRow(sheet);
+            int[] row1 = generateRow(sheet);
+            int[] row2 = generateRow(sheet);
 
             sheet = row0.Concat(row1).Concat(row2).ToList();
 
+            Console.WriteLine("BingoService: Generated sheet");
+
             return sheet.ToArray();
         }
+
+            private static int[] generateRow(List<int> numbers, int rowCount = 5)
+            {
+                List<int> row = new List<int> { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+                List<int> unusedNumbers = new List<int>();
+                
+                int takenCount = 0;
+                while (takenCount < rowCount - 1)
+                {
+                    System.Console.WriteLine(numbers.Count);
+                    int num = numbers[0];
+                    int numPos = num == 90 ? 8 : int.Parse(num.ToString().PadLeft(2, '0')[0].ToString());
+                    
+                    if (row[numPos] == 0)
+                    {
+                        row[numPos] = num;
+                        takenCount++;
+                    } else unusedNumbers.Add(num);
+                    
+                    numbers.RemoveAt(0);
+                }
+                
+                foreach (int num in unusedNumbers)
+                    numbers.Add(num);
+                
+                return row.ToArray();
+            }
     }
 }

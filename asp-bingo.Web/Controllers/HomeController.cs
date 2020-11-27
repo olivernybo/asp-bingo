@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using asp_bingo.Web.Models;
 using asp_bingo.Web.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace asp_bingo.Web.Controllers
 {
@@ -21,6 +22,7 @@ namespace asp_bingo.Web.Controllers
 
         public IActionResult Index()
         {
+            HttpContext.Session.SetString("bingo", "");
             return View();
         }
 
