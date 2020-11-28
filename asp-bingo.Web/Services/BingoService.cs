@@ -72,6 +72,7 @@ namespace asp_bingo.Web.Services
         {
             if (!sheets.ContainsKey(id)) return false;
 
+            Console.WriteLine($"BingoService: Checking {id}'s sheet for bingo");
             int[] sheet = sheets[id];
             IEnumerable<int>[] rows = new IEnumerable<int>[]
             {
