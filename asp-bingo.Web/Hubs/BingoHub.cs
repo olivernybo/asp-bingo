@@ -10,8 +10,11 @@ namespace asp_bingo.Web.Hubs
 {
     public class BingoHub : Hub
     {
-        private static readonly Random random = new Random();
         public static string CallerKey { get; private set; }
+
+        private static readonly Random random = new Random();
+
+        private string Id => Context.GetHttpContext().Session.Id;
 
         static BingoHub()
         {
@@ -31,15 +34,23 @@ namespace asp_bingo.Web.Hubs
 
         public void GetSheet()
         {
-            string id = Context.GetHttpContext().Session.Id;
-            Console.WriteLine($"BingoHub: Requesting sheet for {id}");
-            int[] sheet = BingoService.GetBingoSheet(id);
+            Console.WriteLine($"BingoHub: Requesting sheet for {Id}");
+            int[] sheet = BingoService.GetBingoSheet(Id);
             Console.WriteLine("BingoHub: Sending sheet");
             Clients.Caller.SendAsync("Sheet", sheet);
         }
 
+        public void CallBingo()
+        {
+            bool hasBingo = BingoService.HasBingo(Id);
+            if (hasBingo)
+            {
+                Clients.Others.SendAsync("GameOver");
+                Clients.Caller.SendAsync("Victory");
+            } else Clients.Caller.SendAsync("NotBingo");
+        }
+
         public void GetHistory() => Clients.Caller.SendAsync("History", BingoService.History);
         public void GetRowsNeededForBingo() => Clients.Caller.SendAsync("RowsNeededForBingo", BingoService.RowsNeeded);
-        // todo CallBingo
     }
 }

@@ -21,6 +21,18 @@ bingoConnection.on('Sheet', sheet => {
 
 bingoConnection.on('RowsNeededForBingo', rowsNeeded => document.querySelector('#rowsNeeded').innerText = rowsNeeded)
 
+bingoConnection.on('NotBingo', () => {
+	const bingoButton = document.querySelector('#bingoButton')
+	bingoButton.disabled = false
+	Swal.fire({
+		title: 'Incorrect',
+		text: 'You do not have bingo!',
+		icon: 'error',
+		timer: 3000,
+		timerProgressBar: true
+	})
+})
+
 bingoConnection.on('History', history => {
 	for (const number of history) {
 		const node = document.createElement('li')
@@ -37,7 +49,7 @@ bingoConnection.start()
 		const bingoButton = document.querySelector('#bingoButton')
 		bingoButton.addEventListener('click', () => {
 			bingoButton.disabled = true
-			//bingoConnection.invoke('CallBingo')
+			bingoConnection.invoke('CallBingo')
 		})
 		bingoButton.disabled = false
 	})

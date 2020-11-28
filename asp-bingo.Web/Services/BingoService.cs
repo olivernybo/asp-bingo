@@ -68,6 +68,37 @@ namespace asp_bingo.Web.Services
             }
         }
 
+        public static bool HasBingo(string id)
+        {
+            if (!sheets.ContainsKey(id)) return false;
+
+            int[] sheet = sheets[id];
+            IEnumerable<int>[] rows = new IEnumerable<int>[]
+            {
+                sheet.Take(9),
+                sheet.Skip(9).Take(9),
+                sheet.Skip(18).Take(9)
+            };
+
+            int validRows = 0;
+            foreach (var row in rows)
+            {
+                bool valid = true;
+                foreach (int number in row)
+                {
+                    if (number == 0) continue;
+                    else if (!history.Contains(number))
+                    {
+                        valid = false;
+                        break;
+                    }
+                }
+                if (valid) validRows++;
+            }
+
+            return validRows >= RowsNeeded;
+        }
+
         private static int[] GenerateSheet()
         {
             List<int> sheet = new List<int>();
