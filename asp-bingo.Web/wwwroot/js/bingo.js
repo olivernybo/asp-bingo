@@ -37,7 +37,7 @@ bingoConnection.start()
 		const bingoButton = document.querySelector('#bingoButton')
 		bingoButton.addEventListener('click', () => {
 			bingoButton.disabled = true
-			bingoConnection.invoke('CallBingo')
+			//bingoConnection.invoke('CallBingo')
 		})
 		bingoButton.disabled = false
 	})
