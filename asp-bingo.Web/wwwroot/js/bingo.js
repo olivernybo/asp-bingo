@@ -38,7 +38,7 @@ bingoConnection.on('GameOver', () => {
 		title: 'Game over',
 		text: 'Someone got bingo',
 		icon: 'warning',
-		didClose: () => location.reload()
+		// didClose: () => location.reload()
 	})
 })
 
