@@ -32,6 +32,16 @@ namespace asp_bingo.Web.Hubs
                 await Clients.All.SendAsync("BingoCallerRecieve", number);
         }
 
+        public void NewGame(string key)
+        {
+            if (key == CallerKey)
+            {
+                Console.WriteLine("BingoHub: Requesting new game");
+                BingoService.NewGame();
+                Clients.All.SendAsync("GameOver");
+            }
+        }
+
         public void GetSheet()
         {
             Console.WriteLine($"BingoHub: Requesting sheet for {Id}");
@@ -42,10 +52,14 @@ namespace asp_bingo.Web.Hubs
 
         public void CallBingo()
         {
-            bool hasBingo = BingoService.HasBingo(Id);
+            bool hasBingo = BingoService.CallBingo(Id);
             if (hasBingo)
             {
-                Clients.Others.SendAsync("GameOver");
+                if (BingoService.GameIsRunning)
+                {
+                    Clients.Others.SendAsync("BingoCalled");
+                    Clients.All.SendAsync("RowsNeededForBingo", BingoService.RowsNeeded);
+                } else Clients.Others.SendAsync("GameOver");
                 Clients.Caller.SendAsync("Victory");
             } else Clients.Caller.SendAsync("NotBingo");
         }

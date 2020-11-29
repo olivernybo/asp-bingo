@@ -33,6 +33,33 @@ bingoConnection.on('NotBingo', () => {
 	})
 })
 
+bingoConnection.on('GameOver', () => {
+	Swal.fire({
+		title: 'Game over',
+		text: 'Someone got bingo',
+		icon: 'warning',
+		didClose: () => location.reload()
+	})
+})
+
+bingoConnection.on('BingoCalled', () => {
+	Swal.fire({
+		title: 'Bingo called',
+		text: 'Someone got bingo',
+		icon: 'info',
+		timer: 5000,
+		timerProgressBar: true
+	})
+})
+
+bingoConnection.on('Victory', () => {
+	Swal.fire({
+		title: 'Bingo!',
+		text: 'You got bingo!',
+		icon: 'success'
+	})
+})
+
 bingoConnection.on('History', history => {
 	for (const number of history) {
 		const node = document.createElement('li')
@@ -48,7 +75,6 @@ bingoConnection.start()
 		bingoConnection.invoke('GetRowsNeededForBingo')
 		const bingoButton = document.querySelector('#bingoButton')
 		bingoButton.addEventListener('click', () => {
-			bingoButton.disabled = true
 			bingoConnection.invoke('CallBingo')
 		})
 		bingoButton.disabled = false

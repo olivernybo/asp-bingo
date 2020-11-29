@@ -11,6 +11,7 @@ namespace asp_bingo.Web.Services
 {
     public class BingoService
     {
+        public static bool GameIsRunning { get; private set; } = false;
         public static int[] History => history.ToArray();
         public static int RowsNeeded { get; private set; } = 1;
 
@@ -18,7 +19,6 @@ namespace asp_bingo.Web.Services
         private readonly static Dictionary<string, int[]> sheets = new Dictionary<string, int[]>();
         private readonly static Thread bingoCaller;
         private readonly static List<int> history = new List<int>();
-        private static bool gameIsRunning = false;
 
 		static BingoService()
         {
@@ -38,12 +38,15 @@ namespace asp_bingo.Web.Services
                 await connection.StartAsync();
                 Console.WriteLine("BingoService: Connection established");
 
-                while (gameIsRunning)
+                Game:
+                while (GameIsRunning)
                 {
+                    await Task.Delay(5000);
                     Console.WriteLine("BingoService: Calling...");
                     await CallRandomNunber(connection);
-                    await Task.Delay(1000);
                 }
+                await Task.Delay(1000);
+                goto Game;
             });
             bingoCaller.Start();
         }
@@ -57,6 +60,14 @@ namespace asp_bingo.Web.Services
             await connection.InvokeAsync("BingoCaller", BingoHub.CallerKey, number);
         }
 
+        public static void NewGame()
+        {
+            sheets.Clear();
+            history.Clear();
+            RowsNeeded = 1;;
+            GameIsRunning = true;
+        }
+
         public static int[] GetBingoSheet(string session)
         {
             if (sheets.ContainsKey(session)) return sheets[session];
@@ -68,7 +79,7 @@ namespace asp_bingo.Web.Services
             }
         }
 
-        public static bool HasBingo(string id)
+        public static bool CallBingo(string id)
         {
             if (!sheets.ContainsKey(id)) return false;
 
@@ -97,7 +108,10 @@ namespace asp_bingo.Web.Services
                 if (valid) validRows++;
             }
 
-            return validRows >= RowsNeeded;
+            bool hasBingo = validRows >= RowsNeeded;
+            if (hasBingo && ++RowsNeeded == 4) GameIsRunning = false;
+
+            return hasBingo;
         }
 
         private static int[] GenerateSheet()
