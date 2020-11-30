@@ -42,7 +42,7 @@ namespace asp_bingo.Web.Services
                 while (GameIsRunning)
                 {
                     await Task.Delay(5000);
-                    Console.WriteLine("BingoService: Calling...");
+                    Console.WriteLine("BingoService: Calling random number...");
                     await CallRandomNunber(connection);
                 }
                 await Task.Delay(1000);

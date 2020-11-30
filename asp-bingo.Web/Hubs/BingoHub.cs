@@ -38,7 +38,7 @@ namespace asp_bingo.Web.Hubs
             {
                 Console.WriteLine("BingoHub: Requesting new game");
                 BingoService.NewGame();
-                Clients.All.SendAsync("GameOver");
+                Clients.All.SendAsync("StartingNewGame");
             }
         }
 

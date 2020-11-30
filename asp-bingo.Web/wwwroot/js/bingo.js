@@ -42,6 +42,15 @@ bingoConnection.on('GameOver', () => {
 	})
 })
 
+bingoConnection.on('StartingNewGame', () => {
+	Swal.fire({
+		title: 'New game',
+		text: 'A new game is starting',
+		icon: 'warning',
+		didClose: () => location.reload()
+	})
+})
+
 bingoConnection.on('BingoCalled', () => {
 	Swal.fire({
 		title: 'Bingo called',
