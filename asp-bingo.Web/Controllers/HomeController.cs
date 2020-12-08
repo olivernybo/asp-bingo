@@ -22,8 +22,20 @@ namespace asp_bingo.Web.Controllers
 
         public IActionResult Index()
         {
-            HttpContext.Session.SetString("bingo", "");
+			if (HttpContext.Session.GetString("bingo") != "banko") return Redirect("~/Home/SignUp");
             return View();
+        }
+
+		[HttpGet]
+		public IActionResult SignUp() => View();
+
+		[HttpPost]
+        public IActionResult SignUp(string name, string className)
+        {
+            HttpContext.Session.SetString("name", name);
+            HttpContext.Session.SetString("class", className);
+            HttpContext.Session.SetString("bingo", "banko");
+            return Redirect("~/");
         }
 
         public IActionResult Privacy()

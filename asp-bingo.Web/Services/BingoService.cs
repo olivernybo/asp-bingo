@@ -1,4 +1,6 @@
 using asp_bingo.Web.Hubs;
+using asp_bingo.Web.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
 using System;
@@ -16,7 +18,7 @@ namespace asp_bingo.Web.Services
         public static int RowsNeeded { get; private set; } = 1;
 
         private readonly static Random random = new Random();
-        private readonly static Dictionary<string, int[]> sheets = new Dictionary<string, int[]>();
+        private readonly static Dictionary<string, Player> players = new Dictionary<string, Player>();
         private readonly static Thread bingoCaller;
         private readonly static List<int> history = new List<int>();
 
@@ -62,29 +64,33 @@ namespace asp_bingo.Web.Services
 
         public static void NewGame()
         {
-            sheets.Clear();
+            players.Clear();
             history.Clear();
             RowsNeeded = 1;;
             GameIsRunning = true;
         }
 
-        public static int[] GetBingoSheet(string session)
+        public static int[] GetBingoSheet(HttpContext context)
         {
-            if (sheets.ContainsKey(session)) return sheets[session];
+			string session = context.Session.Id;
+            if (players.ContainsKey(session)) return players[session].Sheet;
             else
             {
+				string name = context.Session.GetString("name");
+				string className = context.Session.GetString("class");
                 int[] sheet = GenerateSheet();
-                sheets.Add(session, sheet);
+				Player player = new Player { Sheet = sheet, Name = name, Class = className };
+                players.Add(session, player);
                 return sheet;
             }
         }
 
         public static bool CallBingo(string id)
         {
-            if (!sheets.ContainsKey(id)) return false;
+            if (!players.ContainsKey(id)) return false;
 
             Console.WriteLine($"BingoService: Checking {id}'s sheet for bingo");
-            int[] sheet = sheets[id];
+            int[] sheet = players[id].Sheet;
             IEnumerable<int>[] rows = new IEnumerable<int>[]
             {
                 sheet.Take(9),
@@ -177,9 +183,9 @@ namespace asp_bingo.Web.Services
                         sheet.Add(number);
             }
 
-            int[] row0 = generateRow(sheet);
-            int[] row1 = generateRow(sheet);
-            int[] row2 = generateRow(sheet);
+            int[] row0 = GenerateRow(sheet);
+            int[] row1 = GenerateRow(sheet);
+            int[] row2 = GenerateRow(sheet);
 
             // Recursive cause the generation can fail
             int[] sheetArray;
@@ -191,7 +197,7 @@ namespace asp_bingo.Web.Services
             return sheetArray;
         }
 
-        private static int[] generateRow(List<int> numbers, int rowCount = 5)
+        private static int[] GenerateRow(List<int> numbers, int rowCount = 5)
         {
             List<int> row = new List<int> { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
             List<int> unusedNumbers = new List<int>();

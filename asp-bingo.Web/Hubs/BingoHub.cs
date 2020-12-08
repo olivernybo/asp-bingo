@@ -1,4 +1,5 @@
 using asp_bingo.Web.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
 using System;
@@ -14,7 +15,8 @@ namespace asp_bingo.Web.Hubs
 
         private static readonly Random random = new Random();
 
-        private string Id => Context.GetHttpContext().Session.Id;
+		private new HttpContext Context => base.Context.GetHttpContext();
+        private string Id => Context.Session.Id;
 
         static BingoHub()
         {
@@ -45,7 +47,7 @@ namespace asp_bingo.Web.Hubs
         public void GetSheet()
         {
             Console.WriteLine($"BingoHub: Requesting sheet for {Id}");
-            int[] sheet = BingoService.GetBingoSheet(Id);
+            int[] sheet = BingoService.GetBingoSheet(Context);
             Console.WriteLine("BingoHub: Sending sheet");
             Clients.Caller.SendAsync("Sheet", sheet);
         }
