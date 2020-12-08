@@ -57,6 +57,7 @@ namespace asp_bingo.Web.Hubs
 		#nullable enable
         public void CallBingo()
         {
+			int rowsNeeded = BingoService.RowsNeeded;
             (bool hasBingo, string? name, string? className) = BingoService.CallBingo(Id);
             if (hasBingo)
             {
@@ -70,7 +71,7 @@ namespace asp_bingo.Web.Hubs
 										autoDelete: false,
 										arguments: null);
 
-					string message = $"{name}, {className}";
+					string message = $"{name}, {className} - {rowsNeeded} row(s)";
 					byte[] body = Encoding.UTF8.GetBytes(message);
 
 					channel.BasicPublish(exchange: "",
