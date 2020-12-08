@@ -2,12 +2,14 @@ version: '3.8'
 services:
   web:
     build: ./asp-bingo.Web
+    restart: always
     ports:
       - 5001:80
     depends_on:
       - rabbit
   rabbit:
     image: rabbitmq:3-management
+    restart: always
     expose: 
       - 5672
       - 5671
