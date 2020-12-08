@@ -4,3 +4,14 @@ services:
     build: ./asp-bingo.Web
     ports:
       - 5001:80
+    depends_on:
+      - rabbit
+  rabbit:
+    image: rabbitmq:3-management
+    expose: 
+      - 5672
+      - 5671
+    ports:
+      - 15672:15672
+    logging:
+      driver: none

@@ -85,9 +85,10 @@ namespace asp_bingo.Web.Services
             }
         }
 
-        public static bool CallBingo(string id)
+		#nullable enable
+        public static (bool, string?, string?) CallBingo(string id)
         {
-            if (!players.ContainsKey(id)) return false;
+            if (!players.ContainsKey(id)) return (false, null, null);
 
             Console.WriteLine($"BingoService: Checking {id}'s sheet for bingo");
             int[] sheet = players[id].Sheet;
@@ -117,7 +118,7 @@ namespace asp_bingo.Web.Services
             bool hasBingo = validRows >= RowsNeeded;
             if (hasBingo && ++RowsNeeded == 4) GameIsRunning = false;
 
-            return hasBingo;
+            return (hasBingo, players[id].Name, players[id].Class);
         }
 
         private static int[] GenerateSheet()

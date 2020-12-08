@@ -2,8 +2,10 @@ using asp_bingo.Web.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
+using RabbitMQ.Client;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -52,11 +54,31 @@ namespace asp_bingo.Web.Hubs
             Clients.Caller.SendAsync("Sheet", sheet);
         }
 
+		#nullable enable
         public void CallBingo()
         {
-            bool hasBingo = BingoService.CallBingo(Id);
+            (bool hasBingo, string? name, string? className) = BingoService.CallBingo(Id);
             if (hasBingo)
             {
+				ConnectionFactory factory = new ConnectionFactory { HostName = "rabbit" };
+				using (IConnection connection = factory.CreateConnection())
+				using (IModel channel = connection.CreateModel())
+				{
+					channel.QueueDeclare(queue: "winners",
+										durable: false,
+										exclusive: false,
+										autoDelete: false,
+										arguments: null);
+
+					string message = $"{name}, {className}";
+					byte[] body = Encoding.UTF8.GetBytes(message);
+
+					channel.BasicPublish(exchange: "",
+										routingKey: "winners",
+										basicProperties: null,
+										body: body);
+					Console.WriteLine($"BingoHub: Winner {message}");
+				}
                 if (BingoService.GameIsRunning)
                 {
                     Clients.Others.SendAsync("BingoCalled");
