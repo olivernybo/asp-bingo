@@ -1,5 +1,33 @@
 <form method="post">
-	<input type="text" name="name">
-	<input type="text" name="className">
-	<input type="submit" value="Sign up">
+	  <div class="form-group row">
+    <label for="name" class="col-4 col-form-label">Name</label> 
+    <div class="col-8">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <div class="input-group-text">
+            <i class="fa fa-user"></i>
+          </div>
+        </div> 
+        <input id="name" name="name" placeholder="Bob" type="text" class="form-control" required="required">
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="className" class="col-4 col-form-label">Class</label> 
+    <div class="col-8">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <div class="input-group-text">
+            <i class="fa fa-address-book"></i>
+          </div>
+        </div> 
+        <input id="className" name="className" placeholder="DAT S3" type="text" class="form-control" required="required">
+      </div>
+    </div>
+  </div> 
+  <div class="form-group row">
+    <div class="offset-4 col-8">
+      <button name="submit" type="submit" class="btn btn-primary">Sign up</button>
+    </div>
+  </div>
 </form>
