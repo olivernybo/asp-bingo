@@ -19,7 +19,7 @@ bingoConnection.on('Sheet', sheet => {
 	}
 })
 
-bingoConnection.on('RowsNeededForBingo', rowsNeeded => document.querySelector('#rowsNeeded').innerText = rowsNeeded)
+bingoConnection.on('RowsNeededForBingo', rowsNeeded => document.querySelector('#rowsNeeded').innerText = rowsNeeded == 4 ? 3 : rowsNeeded)
 
 bingoConnection.on('NotBingo', () => {
 	const bingoButton = document.querySelector('#bingoButton')
@@ -38,7 +38,16 @@ bingoConnection.on('GameOver', () => {
 		title: 'Game over',
 		text: 'Someone got bingo',
 		icon: 'warning',
-		// didClose: () => location.reload()
+	})
+})
+
+bingoConnection.on('StartingNewRound', () => {
+	Swal.fire({
+		title: 'Next round',
+		text: 'The next round is starting!',
+		icon: 'info',
+		timer: 9500,
+		timerProgressBar: true
 	})
 })
 

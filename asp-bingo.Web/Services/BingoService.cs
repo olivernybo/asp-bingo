@@ -43,9 +43,9 @@ namespace asp_bingo.Web.Services
                 Game:
                 while (GameIsRunning)
                 {
-                    await Task.Delay(5000);
                     Console.WriteLine("BingoService: Calling random number...");
                     await CallRandomNunber(connection);
+                    await Task.Delay(5000);
                 }
                 await Task.Delay(1000);
                 goto Game;
@@ -62,13 +62,17 @@ namespace asp_bingo.Web.Services
             await connection.InvokeAsync("BingoCaller", BingoHub.CallerKey, number);
         }
 
-        public static void NewGame()
+        public static async void NewGame()
         {
             players.Clear();
             history.Clear();
-            RowsNeeded = 1;;
-            GameIsRunning = true;
+            RowsNeeded = 1;
+			await Task.Delay(10000);
+			Continue();
         }
+
+		public static void Continue() => GameIsRunning = true;
+		public static void Pause() => GameIsRunning = false;
 
         public static int[] GetBingoSheet(HttpContext context)
         {
@@ -116,7 +120,7 @@ namespace asp_bingo.Web.Services
             }
 
             bool hasBingo = validRows >= RowsNeeded;
-            if (hasBingo && ++RowsNeeded == 4) GameIsRunning = false;
+            if (hasBingo && ++RowsNeeded == 4) Pause();
 
             return (hasBingo, players[id].Name, players[id].Class);
         }

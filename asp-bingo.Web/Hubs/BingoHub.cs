@@ -46,6 +46,14 @@ namespace asp_bingo.Web.Hubs
             }
         }
 
+		public async void NextRound(string key)
+		{
+			Console.WriteLine("BingoHub: Requesting next round");
+			await Clients.All.SendAsync("StartingNewRound");
+			await Task.Delay(10000);
+			BingoService.Continue();
+		}
+
         public void GetSheet()
         {
             Console.WriteLine($"BingoHub: Requesting sheet for {Id}");
@@ -61,6 +69,7 @@ namespace asp_bingo.Web.Hubs
             (bool hasBingo, string? name, string? className) = BingoService.CallBingo(Id);
             if (hasBingo)
             {
+				BingoService.Pause();
 				ConnectionFactory factory = new ConnectionFactory { HostName = "rabbit" };
 				using (IConnection connection = factory.CreateConnection())
 				using (IModel channel = connection.CreateModel())
@@ -80,7 +89,7 @@ namespace asp_bingo.Web.Hubs
 										body: body);
 					Console.WriteLine($"BingoHub: Winner {message}");
 				}
-                if (BingoService.GameIsRunning)
+                if (BingoService.RowsNeeded <= 3)
                 {
                     Clients.Others.SendAsync("BingoCalled");
                     Clients.All.SendAsync("RowsNeededForBingo", BingoService.RowsNeeded);
