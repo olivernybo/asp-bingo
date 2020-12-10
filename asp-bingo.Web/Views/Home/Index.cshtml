@@ -2,72 +2,76 @@
     ViewData["Title"] = "Home Page";
 }
 <link rel="stylesheet" href="~/css/bingo.css" />
-
-<div class="container">
-    <h2>History</h2>
-    <ul id="history"></ul>
-    <table class="table table-dark">
-        <tbody>
-            <tr id="row0">
-                <td class="bingoCol col0"></td>
-                <td class="bingoCol col1"></td>
-                <td class="bingoCol col2"></td>
-                <td class="bingoCol col3"></td>
-                <td class="bingoCol col4"></td>
-                <td class="bingoCol col5"></td>
-                <td class="bingoCol col6"></td>
-                <td class="bingoCol col7"></td>
-                <td class="bingoCol col8"></td>
-            </tr>
-            <tr id="row1">
-                <td class="bingoCol col0"></td>
-                <td class="bingoCol col1"></td>
-                <td class="bingoCol col2"></td>
-                <td class="bingoCol col3"></td>
-                <td class="bingoCol col4"></td>
-                <td class="bingoCol col5"></td>
-                <td class="bingoCol col6"></td>
-                <td class="bingoCol col7"></td>
-                <td class="bingoCol col8"></td>
-            </tr>
-            <tr id="row2">
-                <td class="bingoCol col0"></td>
-                <td class="bingoCol col1"></td>
-                <td class="bingoCol col2"></td>
-                <td class="bingoCol col3"></td>
-                <td class="bingoCol col4"></td>
-                <td class="bingoCol col5"></td>
-                <td class="bingoCol col6"></td>
-                <td class="bingoCol col7"></td>
-                <td class="bingoCol col8"></td>
-            </tr>
-        </tbody>
-    </table>
-    <p>You need <span id="rowsNeeded"></span> row(s) to call bingo!</p>
-    <button id="bingoButton" disabled class="btn btn-success">Bingo!</button>
-    <div class="row">&nbsp;</div>
-    <div class="row">
-        <div class="col-2">Message</div>
-        <div class="col-4"><input type="text" id="messageInput" /></div>
-    </div>
-    <div class="row">&nbsp;</div>
-    <div class="row">
-        <div class="col-6">
-            <input type="button" id="sendButton" value="Send Message" />
-        </div>
-    </div>
-</div>
 <div class="row">
-    <div class="col-12">
-        <hr />
-    </div>
+	<div class="col col-sm-2">
+		<h2>History</h2>
+		<ul id="history"></ul>
+	</div>
+    <div class="col col-sm-7">
+		<table class="table table-dark">
+			<tbody>
+				<tr id="row0">
+					<td class="bingoCol col0"></td>
+					<td class="bingoCol col1"></td>
+					<td class="bingoCol col2"></td>
+					<td class="bingoCol col3"></td>
+					<td class="bingoCol col4"></td>
+					<td class="bingoCol col5"></td>
+					<td class="bingoCol col6"></td>
+					<td class="bingoCol col7"></td>
+					<td class="bingoCol col8"></td>
+				</tr>
+				<tr id="row1">
+					<td class="bingoCol col0"></td>
+					<td class="bingoCol col1"></td>
+					<td class="bingoCol col2"></td>
+					<td class="bingoCol col3"></td>
+					<td class="bingoCol col4"></td>
+					<td class="bingoCol col5"></td>
+					<td class="bingoCol col6"></td>
+					<td class="bingoCol col7"></td>
+					<td class="bingoCol col8"></td>
+				</tr>
+				<tr id="row2">
+					<td class="bingoCol col0"></td>
+					<td class="bingoCol col1"></td>
+					<td class="bingoCol col2"></td>
+					<td class="bingoCol col3"></td>
+					<td class="bingoCol col4"></td>
+					<td class="bingoCol col5"></td>
+					<td class="bingoCol col6"></td>
+					<td class="bingoCol col7"></td>
+					<td class="bingoCol col8"></td>
+				</tr>
+			</tbody>
+		</table>
+		<p>You need <span id="rowsNeeded"></span> row(s) to call bingo!</p>
+	    <button id="bingoButton" disabled class="btn btn-success">Bingo!</button>
+	</div>
+    <div class="col col-sm-3">
+		<div class="row">&nbsp;</div>
+		<div class="row">
+			<div class="col-2">Message</div>
+			<div class="col-4"><input type="text" id="messageInput" /></div>
+		</div>
+		<div class="row">&nbsp;</div>
+		<div class="row">
+			<div class="col-6">
+				<input type="button" id="sendButton" value="Send Message" />
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12">
+				<hr />
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-6">
+				<ul id="messagesList"></ul>
+			</div>
+		</div>
+	</div>
 </div>
-<div class="row">
-    <div class="col-6">
-        <ul id="messagesList"></ul>
-    </div>
-</div>
-
 <script src="~/js/signalr/dist/browser/signalr.js"></script>
 <script src="~/js/chat.js"></script>
 <script src="~/js/bingo.js"></script>
