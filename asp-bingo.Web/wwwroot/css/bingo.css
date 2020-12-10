@@ -22,3 +22,13 @@ table {
     width: 74px;
     text-align: center;
 }
+
+#history li {
+	background-color: #fff;
+	color: black;
+}
+
+#history li:first-of-type {
+	background-color: #000 !important;
+	color: white !important;
+}

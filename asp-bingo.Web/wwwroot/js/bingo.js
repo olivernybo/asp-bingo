@@ -4,7 +4,7 @@ const historyList = document.querySelector('#history')
 bingoConnection.on('BingoCallerRecieve', number => {
 	const node = document.createElement('li')
 	node.innerText = number
-	historyList.appendChild(node)
+	historyList.prepend(node)
 })
 
 bingoConnection.on('Sheet', sheet => {
