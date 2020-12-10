@@ -79,6 +79,7 @@ bingoConnection.on('Victory', () => {
 })
 
 bingoConnection.on('History', history => {
+	History.reverse()
 	for (const number of history) {
 		const node = document.createElement('li')
 		node.innerText = number

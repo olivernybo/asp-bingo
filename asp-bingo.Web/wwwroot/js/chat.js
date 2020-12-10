@@ -16,8 +16,16 @@ connection.start()
 	.then(() => document.getElementById('sendButton').disabled = false)
 	.catch(err => console.error(err.toString()))
 
-document.getElementById('sendButton').addEventListener('click', event => {
-    const message = document.getElementById('messageInput').value
-    connection.invoke('SendMessage', message).catch(err => console.error(err.toString()))
+const sendButton = document.getElementById('sendButton')
+const messageInput = document.getElementById('messageInput')
+sendButton.addEventListener('click', event => {
+    const message = messageInput.value
+	connection.invoke('SendMessage', message).catch(err => console.error(err.toString()))
+	messageInput.value = ''
     event.preventDefault()
+})
+
+messageInput.addEventListener('keyup', e => {
+	if (e.key === 'Enter') sendButton.click()
+	e.preventDefault()
 })
