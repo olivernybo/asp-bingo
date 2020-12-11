@@ -19,7 +19,8 @@ connection.start()
 const sendButton = document.getElementById('sendButton')
 const messageInput = document.getElementById('messageInput')
 sendButton.addEventListener('click', event => {
-    const message = messageInput.value
+	const message = messageInput.value
+	if (!message.replace(/\s+/g, '').length) return
 	connection.invoke('SendMessage', message).catch(err => console.error(err.toString()))
 	messageInput.value = ''
     event.preventDefault()
