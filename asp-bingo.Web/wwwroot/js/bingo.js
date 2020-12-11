@@ -33,10 +33,10 @@ bingoConnection.on('NotBingo', () => {
 	})
 })
 
-bingoConnection.on('GameOver', () => {
+bingoConnection.on('GameOver', (name, className) => {
 	Swal.fire({
 		title: 'Game over',
-		text: 'Someone got bingo',
+		text: `${name} from ${className} got a full sheet!`,
 		icon: 'warning',
 	})
 })
@@ -60,10 +60,10 @@ bingoConnection.on('StartingNewGame', () => {
 	})
 })
 
-bingoConnection.on('BingoCalled', () => {
+bingoConnection.on('BingoCalled', (name, className) => {
 	Swal.fire({
 		title: 'Bingo called',
-		text: 'Someone got bingo',
+		text: `${name} from ${className} got bingo!`,
 		icon: 'info',
 		timer: 5000,
 		timerProgressBar: true

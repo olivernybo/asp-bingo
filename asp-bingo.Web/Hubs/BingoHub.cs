@@ -91,9 +91,9 @@ namespace asp_bingo.Web.Hubs
 				}
                 if (BingoService.RowsNeeded <= 3)
                 {
-                    Clients.Others.SendAsync("BingoCalled");
+                    Clients.Others.SendAsync("BingoCalled", name, className);
                     Clients.All.SendAsync("RowsNeededForBingo", BingoService.RowsNeeded);
-                } else Clients.Others.SendAsync("GameOver");
+                } else Clients.Others.SendAsync("GameOver", name, className);
                 Clients.Caller.SendAsync("Victory");
             } else Clients.Caller.SendAsync("NotBingo");
         }
