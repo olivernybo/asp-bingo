@@ -38,6 +38,7 @@ bingoConnection.on('GameOver', (name, className) => {
 		title: 'Game over',
 		text: `${name} from ${className} got a full sheet!`,
 		icon: 'warning',
+		allowOutsideClick: false
 	})
 })
 
@@ -56,7 +57,8 @@ bingoConnection.on('StartingNewGame', () => {
 		title: 'New game',
 		text: 'A new game is starting',
 		icon: 'warning',
-		didClose: () => location.reload()
+		didClose: () => location.reload(),
+		allowOutsideClick: false
 	})
 })
 
@@ -66,7 +68,8 @@ bingoConnection.on('BingoCalled', (name, className) => {
 		text: `${name} from ${className} got banko!`,
 		icon: 'info',
 		timer: 5000,
-		timerProgressBar: true
+		timerProgressBar: true,
+		allowOutsideClick: false
 	})
 })
 
@@ -74,7 +77,8 @@ bingoConnection.on('Victory', () => {
 	Swal.fire({
 		title: 'Banko!',
 		text: 'You got banko!',
-		icon: 'success'
+		icon: 'success',
+		allowOutsideClick: false
 	})
 })
 
