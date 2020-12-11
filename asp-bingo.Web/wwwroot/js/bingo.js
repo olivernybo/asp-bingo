@@ -26,7 +26,7 @@ bingoConnection.on('NotBingo', () => {
 	bingoButton.disabled = false
 	Swal.fire({
 		title: 'Incorrect',
-		text: 'You do not have bingo!',
+		text: 'You do not have banko!',
 		icon: 'error',
 		timer: 3000,
 		timerProgressBar: true
@@ -62,8 +62,8 @@ bingoConnection.on('StartingNewGame', () => {
 
 bingoConnection.on('BingoCalled', (name, className) => {
 	Swal.fire({
-		title: 'Bingo called',
-		text: `${name} from ${className} got bingo!`,
+		title: 'Banko called',
+		text: `${name} from ${className} got banko!`,
 		icon: 'info',
 		timer: 5000,
 		timerProgressBar: true
@@ -72,8 +72,8 @@ bingoConnection.on('BingoCalled', (name, className) => {
 
 bingoConnection.on('Victory', () => {
 	Swal.fire({
-		title: 'Bingo!',
-		text: 'You got bingo!',
+		title: 'Banko!',
+		text: 'You got banko!',
 		icon: 'success'
 	})
 })
