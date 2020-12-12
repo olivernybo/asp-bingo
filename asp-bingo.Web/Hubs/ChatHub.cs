@@ -8,8 +8,10 @@ namespace asp_bingo.Web.Hubs
     {
         public async Task SendMessage(string message)
         {
-			string user = Context.GetHttpContext().Session.GetString("name");
-            await Clients.All.SendAsync("ReceiveMessage", user, message);
+			HttpContext context = Context.GetHttpContext();
+			string user = context.Session.GetString("name");
+			string color = context.Session.GetString("color");
+            await Clients.All.SendAsync("ReceiveMessage", user, color, message);
         }
     }
 }

@@ -3,11 +3,11 @@ const connection = new signalR.HubConnectionBuilder().withUrl('/chatHub').build(
 //Disable send button until connection is established
 document.getElementById('sendButton').disabled = true
 
-connection.on('ReceiveMessage', (user, message) => {
+connection.on('ReceiveMessage', (user, color, message) => {
     const msg = message.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-    const encodedMsg = user + ': ' + msg
+    const encodedMsg = `<span style="color: ${color};">${user}</span>: ${msg}`
     const li = document.createElement('li')
-    li.textContent = encodedMsg
+    li.innerHTML = encodedMsg
 	const list = document.getElementById('messagesList')
 	list.prepend(li)
 })

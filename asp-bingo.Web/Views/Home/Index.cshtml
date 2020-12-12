@@ -1,6 +1,12 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@using Microsoft.AspNetCore.Http
+<style>
+	:root {
+		--user-color: @Context.Session.GetString("color");
+	}
+</style>
 <link rel="stylesheet" href="~/css/chat.css" />
 <link rel="stylesheet" href="~/css/bingo.css" />
 <div class="row">

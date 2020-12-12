@@ -6,6 +6,7 @@ namespace asp_bingo.Web.Models
     {
 		public string Name { get; set; }
 		public string Class { get; set; }
+		public string Color { get; set; }
 		public int[] Sheet { get; set; }
     }
 }

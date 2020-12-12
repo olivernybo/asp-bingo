@@ -82,8 +82,9 @@ namespace asp_bingo.Web.Services
             {
 				string name = context.Session.GetString("name");
 				string className = context.Session.GetString("class");
+				string color = context.Session.GetString("color");
                 int[] sheet = GenerateSheet();
-				Player player = new Player { Sheet = sheet, Name = name, Class = className };
+				Player player = new Player { Sheet = sheet, Name = name, Class = className, Color = color };
                 players.Add(session, player);
                 return sheet;
             }

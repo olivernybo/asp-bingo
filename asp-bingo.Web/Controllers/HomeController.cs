@@ -30,10 +30,11 @@ namespace asp_bingo.Web.Controllers
 		public IActionResult SignUp() => View();
 
 		[HttpPost]
-        public IActionResult SignUp(string name, string className)
+        public IActionResult SignUp(string name, string className, string color)
         {
             HttpContext.Session.SetString("name", name);
             HttpContext.Session.SetString("class", className);
+            HttpContext.Session.SetString("color", color);
             HttpContext.Session.SetString("bingo", "banko");
             return Redirect("~/");
         }

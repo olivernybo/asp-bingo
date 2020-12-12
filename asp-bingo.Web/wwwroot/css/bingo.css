@@ -8,7 +8,7 @@ table {
 }
 
 .bingoMarked {
-    background-color: green;
+    background-color: var(--user-color);
 }
 
 #history {
