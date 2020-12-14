@@ -55,6 +55,7 @@ namespace asp_bingo.Web.Services
 
         private static async Task CallRandomNunber(HubConnection connection)
         {
+			if (history.Count == 90) return;
             int number = 0;
             while (number == 0 || history.Contains(number))
                 number = random.Next(1, 91);
