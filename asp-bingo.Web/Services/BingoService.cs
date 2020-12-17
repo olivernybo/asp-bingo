@@ -75,6 +75,11 @@ namespace asp_bingo.Web.Services
 		public static void Continue() => GameIsRunning = true;
 		public static void Pause() => GameIsRunning = false;
 
+		public static void BanUser(string session)
+		{
+			if (players.ContainsKey(session)) players[session].IsBanned = true;
+		}
+
         public static int[] GetBingoSheet(HttpContext context)
         {
 			string session = context.Session.Id;
@@ -92,9 +97,10 @@ namespace asp_bingo.Web.Services
         }
 
 		#nullable enable
-        public static (bool, string?, string?) CallBingo(string id)
+        public static (bool hasBingo, string? name, string? className, bool isBanned) CallBingo(string id)
         {
-            if (!players.ContainsKey(id)) return (false, null, null);
+            if (!players.ContainsKey(id)) return (false, null, null, false);
+			else if (players[id].IsBanned) return (false, null, null, true);
 
             Console.WriteLine($"BingoService: Checking {id}'s sheet for bingo");
             int[] sheet = players[id].Sheet;
@@ -124,7 +130,7 @@ namespace asp_bingo.Web.Services
             bool hasBingo = validRows >= RowsNeeded;
             if (hasBingo && ++RowsNeeded == 4) Pause();
 
-            return (hasBingo, players[id].Name, players[id].Class);
+            return (hasBingo, players[id].Name, players[id].Class, false);
         }
 
         private static int[] GenerateSheet()

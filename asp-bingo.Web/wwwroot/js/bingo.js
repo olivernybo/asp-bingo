@@ -91,6 +91,15 @@ bingoConnection.on('History', history => {
 	}
 })
 
+bingoConnection.on('Banned', () => {
+	Swal.fire({
+		title: 'Banned',
+		text: 'You are banned, you will automatically be unbanned at the start of the next game.',
+		icon: 'error',
+		allowOutsideClick: false
+	})
+})
+
 bingoConnection.start()
 	.then(() => {
 		bingoConnection.invoke('GetSheet')

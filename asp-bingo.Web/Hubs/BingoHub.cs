@@ -54,6 +54,11 @@ namespace asp_bingo.Web.Hubs
 			BingoService.Continue();
 		}
 
+		public async void BanUser(string session, string key)
+		{
+			if (key == CallerKey) BingoService.BanUser(session);
+		}
+
         public void GetSheet()
         {
             Console.WriteLine($"BingoHub: Requesting sheet for {Id}");
@@ -66,8 +71,9 @@ namespace asp_bingo.Web.Hubs
         public void CallBingo()
         {
 			int rowsNeeded = BingoService.RowsNeeded;
-            (bool hasBingo, string? name, string? className) = BingoService.CallBingo(Id);
-            if (hasBingo)
+            (bool hasBingo, string? name, string? className, bool isBanned) = BingoService.CallBingo(Id);
+			if (isBanned) Clients.Caller.SendAsync("Banned");
+            else if (hasBingo)
             {
 				BingoService.Pause();
 				ConnectionFactory factory = new ConnectionFactory { HostName = "rabbit" };
